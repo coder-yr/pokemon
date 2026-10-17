@@ -29,7 +29,6 @@ export default function Home() {
 
         const data = await response.json();
 
-        // Extract ID and image URL from each Pokemon result
         const formattedList: Pokemon[] = data.results.map(
           (pokemon: { name: string; url: string }) => {
             const parts = pokemon.url.split("/").filter(Boolean);
@@ -54,14 +53,12 @@ export default function Home() {
     fetchPokemon();
   }, []);
 
-  // Filter Pokemon by search term
   const filteredPokemon = pokemonList.filter((pokemon) =>
     pokemon.name.toLowerCase().includes(search.toLowerCase().trim())
   );
 
   return (
     <div>
-      {/* Page Heading & Search */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900">Pokemon Explorer</h1>
         <p className="mt-1 text-gray-600">
@@ -83,7 +80,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Loading & Error States */}
       {loading && (
         <div className="text-center py-12">
           <p className="text-gray-500 font-medium">Loading Pokemon...</p>
@@ -96,7 +92,6 @@ export default function Home() {
         </div>
       )}
 
-      {/* Pokemon Grid */}
       {!loading && !error && filteredPokemon.length > 0 && (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
           {filteredPokemon.map((pokemon) => (
@@ -128,7 +123,6 @@ export default function Home() {
         </div>
       )}
 
-      {/* Empty Search Result */}
       {!loading && !error && filteredPokemon.length === 0 && (
         <div className="text-center py-12">
           <p className="text-gray-500">

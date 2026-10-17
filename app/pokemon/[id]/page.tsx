@@ -4,7 +4,6 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
 
-// TypeScript interfaces for Pokemon detail data
 interface PokemonType {
   type: {
     name: string;
@@ -50,7 +49,6 @@ interface PokemonDetail {
   moves: PokemonMove[];
 }
 
-// Type colors mapping for badges
 const TYPE_COLORS: Record<string, string> = {
   normal: "bg-gray-100 text-gray-800 border-gray-300",
   fire: "bg-orange-100 text-orange-800 border-orange-300",
@@ -101,7 +99,6 @@ export default async function PokemonDetailPage({ params }: PokemonDetailProps) 
     console.error(err);
   }
 
-  // Not found fallback
   if (!pokemon) {
     return (
       <div className="text-center py-16">
@@ -125,7 +122,6 @@ export default async function PokemonDetailPage({ params }: PokemonDetailProps) 
 
   return (
     <div>
-      {/* Back button */}
       <div className="mb-6">
         <Link
           href="/"
@@ -136,9 +132,7 @@ export default async function PokemonDetailPage({ params }: PokemonDetailProps) 
       </div>
 
       <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-        {/* Top Details Header */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-6 md:p-8 border-b border-gray-100">
-          {/* Pokemon Image */}
           <div className="flex flex-col items-center justify-center bg-gray-50 rounded-xl p-6">
             {image ? (
               <Image
@@ -154,7 +148,6 @@ export default async function PokemonDetailPage({ params }: PokemonDetailProps) 
             )}
           </div>
 
-          {/* Core Info */}
           <div className="md:col-span-2 flex flex-col justify-center">
             <span className="text-sm font-mono text-gray-400">
               #{String(pokemon.id).padStart(3, "0")}
@@ -164,7 +157,6 @@ export default async function PokemonDetailPage({ params }: PokemonDetailProps) 
               {pokemon.name}
             </h1>
 
-            {/* Types */}
             <div className="flex flex-wrap gap-2 mt-3">
               {pokemon.types.map((t: PokemonType) => {
                 const typeName = t.type.name;
@@ -182,7 +174,6 @@ export default async function PokemonDetailPage({ params }: PokemonDetailProps) 
               })}
             </div>
 
-            {/* Physical Attributes */}
             <div className="grid grid-cols-2 gap-4 mt-6 max-w-sm">
               <div className="bg-gray-50 rounded-lg p-3">
                 <p className="text-xs text-gray-500">Height</p>
@@ -199,7 +190,6 @@ export default async function PokemonDetailPage({ params }: PokemonDetailProps) 
               </div>
             </div>
 
-            {/* Abilities */}
             <div className="mt-6">
               <h2 className="text-sm font-semibold text-gray-700">Abilities</h2>
               <div className="flex flex-wrap gap-2 mt-2">
@@ -221,7 +211,6 @@ export default async function PokemonDetailPage({ params }: PokemonDetailProps) 
           </div>
         </div>
 
-        {/* Stats Section */}
         <div className="p-6 md:p-8 border-b border-gray-100">
           <h2 className="text-lg font-bold text-gray-900 mb-4">Base Stats</h2>
           <div className="space-y-3 max-w-xl">
@@ -250,7 +239,6 @@ export default async function PokemonDetailPage({ params }: PokemonDetailProps) 
           </div>
         </div>
 
-        {/* Moves Section */}
         <div className="p-6 md:p-8">
           <h2 className="text-lg font-bold text-gray-900 mb-4">
             Moves ({pokemon.moves.length})
