@@ -2,6 +2,53 @@ export const instant = false;
 
 import Link from "next/link";
 import Image from "next/image";
+import type { Metadata } from "next";
+
+// TypeScript interfaces for Pokemon detail data
+interface PokemonType {
+  type: {
+    name: string;
+  };
+}
+
+interface PokemonAbility {
+  is_hidden: boolean;
+  ability: {
+    name: string;
+  };
+}
+
+interface PokemonStat {
+  base_stat: number;
+  stat: {
+    name: string;
+  };
+}
+
+interface PokemonMove {
+  move: {
+    name: string;
+  };
+}
+
+interface PokemonDetail {
+  id: number;
+  name: string;
+  height: number;
+  weight: number;
+  sprites: {
+    front_default: string | null;
+    other?: {
+      "official-artwork"?: {
+        front_default: string | null;
+      };
+    };
+  };
+  types: PokemonType[];
+  abilities: PokemonAbility[];
+  stats: PokemonStat[];
+  moves: PokemonMove[];
+}
 
 // Type colors mapping for badges
 const TYPE_COLORS: Record<string, string> = {
@@ -29,10 +76,21 @@ interface PokemonDetailProps {
   params: Promise<{ id: string }>;
 }
 
+export async function generateMetadata({
+  params,
+}: PokemonDetailProps): Promise<Metadata> {
+  const { id } = await params;
+  const name = id.charAt(0).toUpperCase() + id.slice(1);
+  return {
+    title: `${name} | Pokemon Explorer`,
+    description: `View stats, types, abilities, and moves for ${name}.`,
+  };
+}
+
 export default async function PokemonDetailPage({ params }: PokemonDetailProps) {
   const { id } = await params;
 
-  let pokemon: any = null;
+  let pokemon: PokemonDetail | null = null;
 
   try {
     const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id.toLowerCase()}`);
@@ -108,7 +166,7 @@ export default async function PokemonDetailPage({ params }: PokemonDetailProps) 
 
             {/* Types */}
             <div className="flex flex-wrap gap-2 mt-3">
-              {pokemon.types.map((t: any) => {
+              {pokemon.types.map((t: PokemonType) => {
                 const typeName = t.type.name;
                 const badgeColor =
                   TYPE_COLORS[typeName] || "bg-gray-100 text-gray-800 border-gray-200";
@@ -145,7 +203,7 @@ export default async function PokemonDetailPage({ params }: PokemonDetailProps) 
             <div className="mt-6">
               <h2 className="text-sm font-semibold text-gray-700">Abilities</h2>
               <div className="flex flex-wrap gap-2 mt-2">
-                {pokemon.abilities.map((a: any) => (
+                {pokemon.abilities.map((a: PokemonAbility) => (
                   <span
                     key={a.ability.name}
                     className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-gray-100 text-xs font-medium text-gray-700 capitalize"
@@ -167,7 +225,7 @@ export default async function PokemonDetailPage({ params }: PokemonDetailProps) 
         <div className="p-6 md:p-8 border-b border-gray-100">
           <h2 className="text-lg font-bold text-gray-900 mb-4">Base Stats</h2>
           <div className="space-y-3 max-w-xl">
-            {pokemon.stats.map((s: any) => {
+            {pokemon.stats.map((s: PokemonStat) => {
               const statName = s.stat.name.replaceAll("-", " ");
               const statValue = s.base_stat;
               const percentage = Math.min(Math.round((statValue / 200) * 100), 100);
@@ -198,7 +256,7 @@ export default async function PokemonDetailPage({ params }: PokemonDetailProps) 
             Moves ({pokemon.moves.length})
           </h2>
           <div className="flex flex-wrap gap-2 max-h-60 overflow-y-auto p-1">
-            {pokemon.moves.map((m: any) => (
+            {pokemon.moves.map((m: PokemonMove) => (
               <span
                 key={m.move.name}
                 className="px-2.5 py-1 rounded bg-gray-100 text-xs text-gray-700 capitalize"

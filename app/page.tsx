@@ -33,7 +33,7 @@ export default function Home() {
         const formattedList: Pokemon[] = data.results.map(
           (pokemon: { name: string; url: string }) => {
             const parts = pokemon.url.split("/").filter(Boolean);
-            const id = parseInt(parts[parts.length - 1], 10);
+            const id = parseInt(parts[parts.length - 1], 10) || 0;
             return {
               id,
               name: pokemon.name,
@@ -69,7 +69,11 @@ export default function Home() {
         </p>
 
         <div className="mt-6 max-w-md">
+          <label htmlFor="pokemon-search" className="sr-only">
+            Search Pokemon by name
+          </label>
           <input
+            id="pokemon-search"
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -107,6 +111,7 @@ export default function Home() {
                   alt={pokemon.name}
                   width={112}
                   height={112}
+                  priority={pokemon.id <= 10}
                   className="w-full h-full object-contain group-hover:scale-105 transition-transform"
                 />
               </div>

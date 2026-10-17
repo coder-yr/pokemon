@@ -1,36 +1,108 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Pokemon Explorer
+
+A responsive Pokemon Explorer web application built with Next.js (App Router), TypeScript, and Tailwind CSS. The app fetches and displays data from the public PokéAPI, allowing users to browse, search, and view detailed information for each Pokémon.
+
+---
+
+## Features
+
+- **Homepage Listing**: Displays an initial roster of Generation 1 Pokémon (151 Pokémon) fetched from PokéAPI.
+- **Real-Time Search**: Instant client-side search filtering Pokémon by name.
+- **Dynamic Detail Pages**: Dynamic server-side rendered routes (`/pokemon/[id]`) showing:
+  - Official high-resolution artwork
+  - National Pokédex ID and name
+  - Elemental types with color-coded badges
+  - Physical attributes (height in meters, weight in kilograms)
+  - Abilities (including hidden ability indicators)
+  - Base stats with visual progress bars (HP, Attack, Defense, Sp. Atk, Sp. Def, Speed)
+  - Moves list
+- **Resilient States**: Includes clear loading indicators, error feedback, empty search states, and 404 not-found views.
+- **Accessible & Responsive**: Accessible markup (labeled inputs, semantic headings) and mobile-friendly grid layouts.
+
+---
+
+## Technologies Used
+
+- **Framework**: [Next.js 16](https://nextjs.org/) (App Router)
+- **Library**: [React 19](https://react.dev/)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
+- **Data Source**: [PokéAPI](https://pokeapi.co/)
+
+---
+
+## PokéAPI Endpoints Used
+
+1. **List Pokémon**:
+   - `GET https://pokeapi.co/api/v2/pokemon?limit=151`
+   - Fetches the initial list of Pokémon names and URLs.
+2. **Pokémon Detail**:
+   - `GET https://pokeapi.co/api/v2/pokemon/{id}`
+   - Fetches individual Pokémon stats, types, abilities, sprites, and moves.
+3. **Official Artwork**:
+   - `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{id}.png`
+
+---
+
+## Project Structure
+
+```
+pokemon/
+├── app/
+│   ├── globals.css              # Global Tailwind CSS import and body styles
+│   ├── layout.tsx               # Root layout with header and footer
+│   ├── page.tsx                 # Homepage component (list & search)
+│   └── pokemon/
+│       └── [id]/
+│           └── page.tsx         # Dynamic detail page (SSR)
+├── next.config.ts               # Next.js configuration and remote image domains
+├── package.json                 # Project dependencies and npm scripts
+├── tsconfig.json                # TypeScript compiler configuration
+└── README.md                    # Project documentation
+```
+
+---
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18.17 or later
+- npm (or yarn / pnpm)
+
+### Installation
+
+Clone the repository and install dependencies:
+
+```bash
+git clone https://github.com/coder-yr/pokemon.git
+cd pokemon
+npm install
+```
+
+### Running Locally
+
+Start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Production Build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Create an optimized production build and verify TypeScript types:
 
-## Learn More
+```bash
+npm run build
+npm run start
+```
 
-To learn more about Next.js, take a look at the following resources:
+### Linting
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Check code quality and TypeScript standards:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run lint
+```
